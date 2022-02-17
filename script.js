@@ -19,41 +19,19 @@ function computerPlay() {
 function checkWinner(playerSelection, computerSelection)  {
     switch (playerSelection) {
         case ROCK:
-            if (computerSelection === PAPER) {
-                winner = COMPUTER;                                
-            }
-            else if (computerSelection == SCISSORS) {
-                winner = PLAYER;
-            }
-            else {
-                winner = DRAW;
-            }
+            winner = (computerSelection === PAPER) ? COMPUTER :
+                    (computerSelection == SCISSORS) ? PLAYER :
+                    DRAW; 
             break;
-
         case PAPER:
-            if (computerSelection === SCISSORS) {
-                winner = COMPUTER;                                
-            }
-            else if (computerSelection == ROCK) {
-                winner = PLAYER;
-            }
-            else {
-                winner = DRAW;
-            }
-
+            winner = (computerSelection === SCISSORS) ? COMPUTER :
+                    (computerSelection == ROCK) ? PLAYER :
+                    DRAW; 
             break;
-
         case SCISSORS:
-            if (computerSelection === ROCK) {
-                winner = COMPUTER;                                
-            }
-            else if (computerSelection == PAPER) {
-                winner = PLAYER;
-            }
-            else {
-                winner = DRAW;
-            }
-
+            winner = (computerSelection === ROCK) ? COMPUTER :
+                    (computerSelection == PAPER) ? PLAYER :
+                    DRAW;
             break;
         default:
             winner = DRAW;
@@ -63,16 +41,9 @@ function checkWinner(playerSelection, computerSelection)  {
 }
 
 function computeMessage(winner, playerSelection, computerSelection) {
-    if (winner === PLAYER) {
-        message = playerWinsMessage + " " + playerSelection + " beats " + computerSelection;
-        
-    }
-    else if (winner === COMPUTER) {
-        message = computerWinsMessage + " " + computerSelection + " beats " + playerSelection;
-    }
-    else {
-        message = drawMessage;
-    }
+    message = (winner === PLAYER) ? playerWinsMessage + " " + playerSelection + " beats " + computerSelection :
+            (winner === COMPUTER) ? computerWinsMessage + " " + computerSelection + " beats " + playerSelection :
+            drawMessage;
     return message;
 }
 
@@ -85,8 +56,9 @@ function playRound(playerSelection, computerSelection) {
     console.log(computerSelection);
 
     let winner = checkWinner(playerSelection, computerSelection);
+    
     let message = computeMessage(winner, playerSelection, computerSelection);
-
+    
     return [winner, message]
 
 }
@@ -99,7 +71,7 @@ function increaseWinCount(winner, playerWinCount, computerWinCount) {
     }
     return [playerWinCount, computerWinCount]
 }
-function game(times) {
+function playGame(times) {
     let playerWinCount = 0;
     let computerWinCount = 0;
     for (let i = 0; i < times; i++) {
@@ -128,4 +100,66 @@ function game(times) {
 
 }
 
-game(5)
+let playerWinCount = 0;
+let computerWinCount = 0;
+
+function checkCountWinner(playerWinCount, computerWinCount) {
+    if (playerWinCount > computerWinCount) {
+        return "You win!";
+    }
+    else if (computerWinCount > playerWinCount) {
+        return "You lose! Computer wins the game.";
+    }
+    else if (computerWinCount === playerWinCount) {
+        return "Game was a draw.";
+    }
+    else { return "." };
+}
+function playRoundCallback(e) {
+    let computerSelection = computerPlay()
+    let playerSelection = e.target.id;
+
+    console.log(playerSelection);
+    console.log(computerSelection);
+
+    values = playRound(playerSelection, computerSelection)
+    winner = values[0];
+    message = values[1];
+
+    const computerResult = document.querySelector('#computerresult');
+    computerResult.innerHTML = "You selected <b>" + playerSelection + "</b>.<br>" +
+            "Computer selected <b>" + computerSelection + "</b>!";
+
+
+    const roundWinner = document.querySelector('#roundwinner');
+
+    let winnerColor = (winner === PLAYER) ? '#24305e' :
+            (winner === COMPUTER) ? '#f76c6c' :
+            'gray';
+    console.log(winnerColor);
+
+    roundWinner.setAttribute('style', `color: ${winnerColor};`);    
+    roundWinner.innerHTML = "<b>" + message + "</b>";
+
+
+    
+    values = increaseWinCount(winner, playerWinCount, computerWinCount)
+    playerWinCount = values[0];
+    computerWinCount = values[1];
+    
+    const winCount = document.querySelector('#wincount');
+    winCount.innerHTML = 'Player has won <b>' + playerWinCount + '</b> times. Computer has won <b>' + computerWinCount + '</b> times.';
+
+    if (playerWinCount >= 5 || computerWinCount >= 5) {
+        message = checkCountWinner(playerWinCount, computerWinCount)
+        const countWinner = document.querySelector('#countwinner');
+        countWinner.innerHTML = "<b>" + message + "</b>"; 
+    }
+
+}
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', playRoundCallback));
+
+
+// playGame(5)

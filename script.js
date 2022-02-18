@@ -115,7 +115,9 @@ function checkCountWinner(playerWinCount, computerWinCount) {
     }
     else { return "." };
 }
+let waitingForRestart = false;
 function playRoundCallback(e) {
+    if (waitingForRestart === true) return;
     let computerSelection = computerPlay()
     let playerSelection = e.target.id;
 
@@ -159,6 +161,35 @@ function playRoundCallback(e) {
         roundWinner.innerHTML = ".";
         winCount.innerHTML = ".";
 
+        restart = document.querySelector("#restart");
+        const restartButton = document.createElement('button');
+
+        restartButton.setAttribute('style', 
+                'color: white; border: solid white 2px; background-color: #24305e; font-size: 46px; font-weight: bold; padding: 20px; margin: 10px 0;border-radius: 10px;');    
+        restartButton.setAttribute('id', 'restartbutton')
+        restartButton.textContent = 'Again?';
+
+        restart.appendChild(restartButton);
+        
+        restartButton.addEventListener('click', restartGame);
+        waitingForRestart = true;
+    }
+
+}
+
+function restartGame(e) {
+    if (waitingForRestart === true) {
+        playerWinCount = 0;
+        computerWinCount = 0;
+        
+        const countWinner = document.querySelector('#countwinner');
+        countWinner.innerHTML = ".";
+
+        restart = document.querySelector("#restart");
+        restartButton = document.querySelector("#restartbutton");
+        restart.removeChild(restartButton);
+
+        waitingForRestart = false;
     }
 
 }

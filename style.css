@@ -60,3 +60,12 @@ html, body {
     font-size: 48px;
 
 }
+
+#explanation {
+    display: flex;
+    font-size: 48px;
+    justify-content: center;
+    text-align: center;
+    margin: 0 15%;
+    margin-bottom: 20px;
+}

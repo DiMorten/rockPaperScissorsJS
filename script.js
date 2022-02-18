@@ -118,11 +118,18 @@ function checkCountWinner(playerWinCount, computerWinCount) {
 let waitingForRestart = false;
 function playRoundCallback(e) {
     if (waitingForRestart === true) return;
+    console.log(e);
+    // handle sound
+    const audio = document.querySelector(`audio[data-choice="${e.target.id}"]`);
+    if(!audio) return;
+    audio.currentTime = 0; // rewind to start
+    audio.play();
+    
     let computerSelection = computerPlay()
     let playerSelection = e.target.id;
 
-    console.log(playerSelection);
-    console.log(computerSelection);
+    //console.log(playerSelection);
+    //console.log(computerSelection);
 
     values = playRound(playerSelection, computerSelection)
     winner = values[0];
@@ -138,7 +145,7 @@ function playRoundCallback(e) {
     let winnerColor = (winner === PLAYER) ? '#24305e' :
             (winner === COMPUTER) ? '#f76c6c' :
             'gray';
-    console.log(winnerColor);
+    //console.log(winnerColor);
 
     roundWinner.setAttribute('style', `color: ${winnerColor};`);    
     roundWinner.innerHTML = "<b>" + message + "</b>";

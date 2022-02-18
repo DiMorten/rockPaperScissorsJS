@@ -154,11 +154,16 @@ function playRoundCallback(e) {
         message = checkCountWinner(playerWinCount, computerWinCount)
         const countWinner = document.querySelector('#countwinner');
         countWinner.innerHTML = "<b>" + message + "</b>"; 
+
+        computerResult.innerHTML = ".";
+        roundWinner.innerHTML = ".";
+        winCount.innerHTML = ".";
+
     }
 
 }
 
-const buttons = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('.button');
 buttons.forEach(button => button.addEventListener('click', playRoundCallback));
 
 

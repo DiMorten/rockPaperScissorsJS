@@ -15,7 +15,7 @@ html, body {
     flex-direction: column;
   }
 
-#buttons, #results {
+#results {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,12 +24,17 @@ html, body {
 }
 
 #buttons {
-    gap: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 5%;
+    flex:0;
 }
 
 .button {
-    min-width: 150px;
-    min-height: 150px;
+    width: 250px;
+    height: 250px;
     font-size: 28px;
 }
 
@@ -37,7 +42,7 @@ html, body {
     font-size: 24px;
     flex-direction: column;
     color: white;
-    padding: 20px;
+    padding: 20px 0;
 }
 
 #roundwinner {
@@ -47,7 +52,7 @@ html, body {
 #wincount {
     color: #374785;
     font-size: 22px;
-    padding: 10px;
+    padding: 10px 0;
 }
 
 #countwinner {

@@ -10,6 +10,7 @@ const PLAYER = 'player';
 const COMPUTER = 'computer';
 const DRAW = 'draw';
 
+
 function computerPlay() {
     let items = Array(ROCK, PAPER, SCISSORS);
     let item = items[Math.floor(Math.random()*items.length)];  
@@ -121,10 +122,9 @@ function playRoundCallback(e) {
     console.log(e);
     // handle sound
     const audio = document.querySelector(`audio[data-choice="${e.target.id}"]`);
-    if(!audio) return;
     audio.currentTime = 0; // rewind to start
     audio.play();
-    
+
     let computerSelection = computerPlay()
     let playerSelection = e.target.id;
 
@@ -186,6 +186,11 @@ function playRoundCallback(e) {
 
 function restartGame(e) {
     if (waitingForRestart === true) {
+        // handle audio
+        const audio = document.querySelector('#audio_restart');
+        audio.currentTime = 0; // rewind to start
+        audio.play();
+
         playerWinCount = 0;
         computerWinCount = 0;
         
